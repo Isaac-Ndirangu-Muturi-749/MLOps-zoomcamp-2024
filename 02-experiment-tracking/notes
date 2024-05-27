@@ -1,2 +1,5 @@
-mlflow ui --backend-store-uri sqlite:///mlflow.db
+conda create -n exp-tracking-env python=3.9
 
+pip install -r requirements.txt
+
+mlflow ui --backend-store-uri sqlite:///mlflow.db
