@@ -3,3 +3,11 @@ conda create -n exp-tracking-env python=3.9
 pip install -r requirements.txt
 
 mlflow ui --backend-store-uri sqlite:///mlflow.db
+
+https://github.com/codespaces/literate-space-fiesta-45gg9465j4vh67j?editor=web
+
+mlflow server -h 0.0.0.0 -p 5000 --backend-store-uri postgresql://mlfow:oQptAkLzcTPeC74sywev@mlflow-database.czg4ecywqn0w.eu-north-1.rds.amazonaws.com:5432/mlflow_db --default-artifact-root s3://mlflow-artifacts-remotes
+
+https://github.com/DataTalksClub/mlops-zoomcamp/raw/main/02-experiment-tracking/running-mlflow-examples/scenario-3.ipynb
+
+pip3 install boto3 psycopg2-binary
