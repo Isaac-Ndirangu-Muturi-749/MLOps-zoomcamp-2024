@@ -11,3 +11,13 @@ mlflow server -h 0.0.0.0 -p 5000 --backend-store-uri postgresql://mlfow:oQptAkLz
 https://github.com/DataTalksClub/mlops-zoomcamp/raw/main/02-experiment-tracking/running-mlflow-examples/scenario-3.ipynb
 
 pip3 install boto3 psycopg2-binary
+
+python train.py --data_path ./output
+
+mkdir -p ./artifacts
+
+mlflow server \
+    --backend-store-uri sqlite:///mlflow.db \
+    --default-artifact-root ./artifacts
+
+python register_model.py --data_path ./output --top_n 5
