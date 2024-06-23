@@ -1,0 +1,23 @@
+conda create -n py11 python=3.11
+
+
+conda activate py11
+
+pip install -r requirements.txt
+
+
+pip install --upgrade pip
+
+docker-compose up --build
+
+docker system prune -a -f --volumes
+
+docker-compose down
+
+mkdir models
+mkdir data
+
+
+export LD_LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/11:$LD_LIBRARY_PATH
+
+

@@ -21,3 +21,9 @@ mlflow server \
     --default-artifact-root ./artifacts
 
 python register_model.py --data_path ./output --top_n 5
+
+
+conda activate py11
+
+
+
