@@ -1,0 +1,48 @@
+
+pip install pipenv
+
+sudo add-apt-repository ppa:deadsnakes/ppa
+sudo apt-get update
+
+
+sudo apt-get install python3.9 python3.9-venv python3.9-dev
+
+pipenv install
+
+
+docker build -t stream-model-duration:v2 .
+
+
+```
+docker run -it --rm \
+    -p 8080:8080 \
+    -e PREDICTIONS_STREAM_NAME="ride_predictions" \
+    -e RUN_ID="Test123" \
+    -e MODEL_LOCATION="/app/model" \
+    -e TEST_RUN="True" \
+    -e AWS_DEFAULT_REGION="eu-north-1" \
+    -v $(pwd)/model:/app/model \
+    stream-model-duration:v2
+```
+
+docker-compose up -d
+
+pipenv run python test_docker.py
+
+aws kinesis list-streams
+
+aws --endpoint-url=http://localhost:4566 kinesis list-streams
+
+
+aws --endpoint-url=http://localhost:4566 \
+    kinesis create-stream \
+    --stream-name ride_predictions \
+    --shard-count 1
+
+
+docker ps
+aws --endpoint-url=http://localhost:4566 kinesis list-streams
+
+
+./integraton-test/run.sh
+

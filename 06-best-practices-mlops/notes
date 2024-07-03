@@ -1,0 +1,14 @@
+black --diff . | less
+
+black --skip-string-normalization --diff . | less
+
+black .
+
+pylint --recursive=y .
+
+isort --diff . | less
+
+isort .
+
+pre-commit install
+less .git/hooks/pre-commit
