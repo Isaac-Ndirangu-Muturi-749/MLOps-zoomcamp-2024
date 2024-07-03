@@ -1,0 +1,13 @@
+python batch.py 2023 03
+
+
+pipenv install --dev pytest
+
+mkdir tests
+
+touch tests/__init__.py
+
+touch tests/test_batch.py
+
+
+pipenv run pytest
