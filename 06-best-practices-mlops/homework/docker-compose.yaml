@@ -1,0 +1,14 @@
+services:
+  localstack:
+    image: localstack/localstack
+    ports:
+      - "4566:4566"
+    environment:
+      - SERVICES=s3
+      - DEBUG=1
+    networks:
+      - localstack_network
+
+networks:
+  localstack_network:
+    driver: bridge

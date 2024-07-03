@@ -1,40 +1,34 @@
-import pytest
 import pandas as pd
-from batch import read_data, main
+from datetime import datetime
+from batch import prepare_data
 
-def test_read_data():
-    # Example test for read_data function
-    data = {
-        'tpep_dropoff_datetime': pd.to_datetime(['2023-03-01 00:15:00']),
-        'tpep_pickup_datetime': pd.to_datetime(['2023-03-01 00:00:00']),
-        'PULocationID': [1],
-        'DOLocationID': [2],
-    }
-    df = pd.DataFrame(data)
-    df.to_parquet('test.parquet', engine='pyarrow')
+def dt(hour, minute, second=0):
+    return datetime(2023, 1, 1, hour, minute, second)
+
+def test_prepare_data():
+    data = [
+        (None, None, dt(1, 1), dt(1, 10)),
+        (1, 1, dt(1, 2), dt(1, 10)),
+        (1, None, dt(1, 2, 0), dt(1, 2, 59)),
+        (3, 4, dt(1, 2, 0), dt(2, 2, 1)),
+    ]
+    columns = ['PULocationID', 'DOLocationID', 'tpep_pickup_datetime', 'tpep_dropoff_datetime']
+    df = pd.DataFrame(data, columns=columns)
 
     categorical = ['PULocationID', 'DOLocationID']
-    df_result = read_data('test.parquet', categorical)
+    actual_df = prepare_data(df, categorical)
+    print(actual_df)
 
-    assert df_result is not None
-    assert 'duration' in df_result.columns
+    expected_data = [
+        ['-1', '-1', dt(1,1), dt(1,10), 9.0],
+        ['1', '1', dt(1,2), dt(1,10), 8.0],
+    ]
 
-def test_main(monkeypatch):
-    # Example test for main function
-    def mock_read_data(filename, categorical):
-        data = {
-            'tpep_dropoff_datetime': pd.to_datetime(['2023-03-01 00:15:00']),
-            'tpep_pickup_datetime': pd.to_datetime(['2023-03-01 00:00:00']),
-            'PULocationID': ['1'],
-            'DOLocationID': ['2'],
-            'duration': [15]
-        }
-        return pd.DataFrame(data)
+    expected_columns = ['PULocationID', 'DOLocationID', 'tpep_pickup_datetime', 'tpep_dropoff_datetime', 'duration']
+    expected_df = pd.DataFrame(expected_data, columns=expected_columns)
 
-    monkeypatch.setattr('batch.read_data', mock_read_data)
-
-    main(2023, 3)
-    # Check if the output file is created and has the expected content
+    pd.testing.assert_frame_equal(actual_df.reset_index(drop=True), expected_df.reset_index(drop=True))
 
 if __name__ == "__main__":
-    pytest.main()
+    test_prepare_data()
+    print("Test passed!")

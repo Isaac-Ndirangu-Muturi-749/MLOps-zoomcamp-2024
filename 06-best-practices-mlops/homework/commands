@@ -11,3 +11,24 @@ touch tests/test_batch.py
 
 
 pipenv run pytest
+
+
+export PYTHONPATH=/home/codespace/.local/share/virtualenvs/homework-NO9jOUJP/lib/python3.10/site-packages
+
+
+!pytest -s tests
+
+docker-compose up -d
+docker-compose down
+docker-compose build
+
+
+
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+
+aws --endpoint-url=http://localhost:4566 s3 mb s3://nyc-duration
+
+export INPUT_FILE_PATTERN="s3://nyc-duration/in/{year:04d}-{month:02d}.parquet"
+export OUTPUT_FILE_PATTERN="s3://nyc-duration/out/{year:04d}-{month:02d}.parquet"
