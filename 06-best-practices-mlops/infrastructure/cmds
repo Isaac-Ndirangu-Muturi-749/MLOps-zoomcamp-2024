@@ -1,0 +1,13 @@
+terraform init
+terraform plan
+terraform apply
+
+stg-mlflow-models
+
+stg-ride-predictions
+stg_ride_events
+
+
+terraform plan -var-file=vars/stg.tfvars
+
+
